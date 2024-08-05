@@ -1,0 +1,23 @@
+# Maven specific
+target/
+
+# Other common excludes
+*.log
+*.class
+*.jar
+*.war
+*.ear
+*.png
+
+# IntelliJ IDEA specific
+.idea/
+*.iml
+*.iws
+*.html
+
+# Eclipse specific
+.project
+.classpath
+.settings/
+
+
