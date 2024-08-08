@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                git 'https://github.com/asad-sidhu/randomtestjenkins.git'
                 bat "mvn clean package"
             }
             post {
