@@ -40,6 +40,8 @@ pipeline {
                     alwaysLinkToLastBuild: false,
                     keepAll: true,
                     reportDir: 'reports',
+                    reportFiles: 'TestExecutionReport.html', 
+                    reportName: 'HTML Extent Report', 
                     reportTitles: ''])
             }
         }
