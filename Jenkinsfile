@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-    	maven 'maven'
+        maven 'maven'
     }
 
     stages {
@@ -14,17 +14,17 @@ pipeline {
             post {
                 success {
                     junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
                 }
+                archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
             }
         }
-        
+
         stage("Deploy to QA") {
             steps {
                 echo "Deploying to QA"
             }
         }
-        
+
         stage('Regression Automation Test') {
             steps {
                 dir('Playwright-java-testng') { // Navigate into the correct directory
@@ -33,16 +33,28 @@ pipeline {
                 }
             }
         }
-        
-        stage('Publish Extent Report') {
-            steps {
-                publishHTML([allowMissing: false,
-                             alwaysLinkToLastBuild: false, 
-                             keepAll: true, 
-                             reportDir: 'reports', 
-                             reportFiles: 'TestExecutionReport.html', 
-                             reportName: 'HTML Extent Report', 
-                             reportTitles: ''])
+
+        stage('Publish Extent Report (Always)') {
+            always { // Run this stage even if previous stages fail
+                steps {
+                    script {
+                        // Assuming Extent Report is generated in 'reports' directory
+                        def reportFiles = fileGlob(dir: 'reports', files: 'TestExecutionReport.html')
+                        if (reportFiles.any()) {
+                            publishHTML([
+                                allowMissing: false,
+                                alwaysLinkToLastBuild: false,
+                                keepAll: true,
+                                reportDir: 'reports',
+                                reportFiles: reportFiles,
+                                reportName: 'HTML Extent Report',
+                                reportTitles: ''
+                            ])
+                        } else {
+                            echo "Extent Report not found. Might be due to test failures."
+                        }
+                    }
+                }
             }
         }
     }
