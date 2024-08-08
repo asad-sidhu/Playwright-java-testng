@@ -43,7 +43,7 @@ public class LoginTest extends BaseTest {
     public void LoginNegativeCases(String uname, String pwd) throws IOException {
         try {
             loginPage.login(uname, pwd);
-            Assert.assertFalse(loginPage.isInavlidCredsAlertPresent());
+            Assert.assertTrue(loginPage.isInavlidCredsAlertPresent());
         } catch (AssertionError e) {
             throw new RuntimeException(e);
         } catch (Exception e) {
