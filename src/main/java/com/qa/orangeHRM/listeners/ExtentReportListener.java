@@ -69,7 +69,8 @@ public class ExtentReportListener implements ITestListener, IClassListener {
         System.out.println("Test Class started: " + testClass.getName());
         String className = testClass.getName();
         String dateTime = DateUtil.getCurrentTime();
-        String generatedReportName = className.split("test.")[1] + "_" + dateTime + ".html";
+//        String generatedReportName = className.split("test.")[1] + "_" + dateTime + ".html";
+        String generatedReportName = "className.html";
         extentReports.set(init(generatedReportName));
         reportName.set(generatedReportName);
     }
