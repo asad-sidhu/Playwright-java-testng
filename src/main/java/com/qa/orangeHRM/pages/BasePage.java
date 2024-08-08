@@ -11,7 +11,7 @@ public class BasePage {
     private String sideMenu = "ul.oxd-main-menu";
     private String topBarHeader = "div.oxd-topbar-header";
     private String topBarBody = "div.oxd-topbar-body";
-    private String sideMenuExpandButton = "button.oxd-main-menu-button";
+    private String sideMenuExpandButton = "//*[contains(@class,'chevron-right')]";
 
 
     public BasePage(Page page) {
@@ -33,6 +33,7 @@ public class BasePage {
     }
 
     public void navBarNavigations(String screen) {
+        page.locator(sideMenu).locator("span:has-text('"+screen+"')").waitFor();
         if (!page.locator(sideMenu).locator("span:has-text('"+screen+"')").isVisible()) {
             page.click(sideMenuExpandButton);
         }

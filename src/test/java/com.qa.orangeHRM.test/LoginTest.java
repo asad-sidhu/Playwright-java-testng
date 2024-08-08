@@ -3,7 +3,9 @@ package com.qa.orangeHRM.test;
 import com.qa.orangeHRM.config.BaseTest;
 import com.qa.orangeHRM.pages.LoginPage;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 

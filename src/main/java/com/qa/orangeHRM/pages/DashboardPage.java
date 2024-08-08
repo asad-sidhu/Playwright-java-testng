@@ -2,12 +2,14 @@ package com.qa.orangeHRM.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.qa.orangeHRM.miscFunctions.Sorting;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardPage {
     private Page page;
+    private static final String dashboardGrid = "div.orangehrm-dashboard-grid";
     private static final String dashboardwidgets = "//div[contains(@class,'orangehrm-dashboard-widget')]";
     private static final String dashboardChartLegends = "//ul[@class ='oxd-chart-legend']//li";
     private static final String dashboardPieCharts = "div.emp-distrib-chart canvas";
@@ -18,14 +20,19 @@ public class DashboardPage {
     private static final String dashboardToDoEmployeesLeaveDetails = "//p[contains(@class,'orangehrm-leave-card')]";
     private static final String dashboardToDoEmployeesPosts = "//div[contains(@class,'orangehrm-buzz-widget-card')]";
     private static final String dashboardToDoEmployeesPostDetails = "//p[not(contains(@class,'time'))]";
+    private static final String dashboardTimeAtWorkWidget = "(//div[contains(@class, 'widget')]//p[text()='Time at Work']/ancestor::div[contains(@class, 'widget')])[1]";
 
     public DashboardPage(Page page) {
         this.page = page;
     }
 
     public boolean allWidgetsVisible(String widgetName) {
-        System.out.println(page.locator(dashboardwidgets).locator("//p[text() = '" + widgetName + "']").textContent());
+        page.locator(dashboardGrid).waitFor();
         return page.locator(dashboardwidgets).locator("//p[text() = '" + widgetName + "']").isVisible();
+    }
+
+    public boolean buzzWidgetRights() {
+        return page.locator(dashboardwidgets).locator("//p[text() = 'Buzz Latest Posts']").isVisible();
     }
 
     public void clickQuickLaunchOptions(String option) {
@@ -55,6 +62,8 @@ public class DashboardPage {
         for (int i = 0; i < items.count(); i++) {
             toDoList.add(items.nth(i).textContent()
                     .replace("Candidate","Candidates")
+                    .replace("Review","Reviews")
+                    .replace("Timesheet","Timesheets")
                     .replace("(","")
                     .replace(")","")
                     .toLowerCase()
@@ -74,10 +83,18 @@ public class DashboardPage {
                 employeesOnLeave.set(
                 i, employeesOnLeave.get(i)+ " " + employees.nth(i).locator(dashboardToDoEmployeesLeaveDetails).nth(j).textContent()
                 );
-                employeesOnLeave.set(i, employeesOnLeave.get(i).trim());
+                employeesOnLeave.set(i, employeesOnLeave.get(i).trim().toLowerCase());
             }
         }
         return employeesOnLeave;
+    }
+
+    public boolean verifyNoLeavesMessage() {
+        return page.locator("text=No Employees are on Leave Today").isVisible();
+    }
+
+    public boolean verifyNoActionsMessage() {
+        return page.locator("text=No Pending Actions to Perform").isVisible();
     }
 
     public List<String> getEmployeesPosts() {
@@ -89,11 +106,26 @@ public class DashboardPage {
             Locator postDetails = posts.nth(i).locator(dashboardToDoEmployeesPostDetails);
             for (int j = 0; j < postDetails.count(); j++) {
                 employeesPosts.set(
-                i, employeesPosts.get(i)+ " " + posts.nth(i).locator(dashboardToDoEmployeesPostDetails).nth(j).textContent()
+                i, employeesPosts.get(i)+ " " + posts.nth(i).locator(dashboardToDoEmployeesPostDetails).nth(j).textContent().toLowerCase().replaceAll("\r\n|\r|\n", "\n")
                 );
-                employeesPosts.set(i, employeesPosts.get(i).trim());
+                employeesPosts.set(i, Sorting.normalizeString(employeesPosts.get(i).trim()));
             }
         }
         return employeesPosts;
+    }
+
+    public List<String> getTimeAtWork() {
+        List<String> timeAtWork = new ArrayList<>();
+        page.waitForSelector(dashboardTimeAtWorkWidget);
+        Locator widget = page.locator(dashboardTimeAtWorkWidget);
+        String lastAction  = widget.locator("//p[contains(@class,'card-details')]").textContent();
+        String totalDayTime  = widget.locator("//span[contains(@class,'fulltime')]").textContent();
+        String totalWeekTime  = widget.locator("//p[contains(@class,'fulltime')]").textContent();
+        timeAtWork.add(lastAction.split(":")[0].toUpperCase());
+        timeAtWork.add(lastAction.split("at ")[1].split(" \\(")[0]);
+        timeAtWork.add(totalDayTime.split("m ")[0].trim()+"m");
+        timeAtWork.add(totalWeekTime.trim());
+
+        return timeAtWork;
     }
 }

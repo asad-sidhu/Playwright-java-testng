@@ -1,7 +1,5 @@
 package com.qa.orangeHRM.api;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.microsoft.playwright.Page;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -12,6 +10,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class API_Requests {
@@ -62,7 +61,7 @@ public class API_Requests {
         return request;
     }
 
-    public String get_request(String api_url, Map<String, String> params) throws InterruptedException {
+    public  Map<String,String> get_request(String api_url, Map<String, String> params) throws InterruptedException {
         RequestSpecification request = getRequestSpecification();
         if (params != null && !params.isEmpty()) {
             request.params(params);
@@ -72,7 +71,7 @@ public class API_Requests {
     }
 
     // Overloaded method for no parameters
-    public String get_request(String api_url) throws InterruptedException {
+    public  Map<String,String> get_request(String api_url) throws InterruptedException {
         return get_request(api_url, null);
     }
 
@@ -96,12 +95,16 @@ public class API_Requests {
 //        return processResponse(response);
 //    }
 
-    private String processResponse(Response response) throws InterruptedException {
+    private Map<String,String> processResponse(Response response) throws InterruptedException {
         int code = response.getStatusCode();
         Thread.sleep(2000);
         softAssert.assertEquals(code, 200, "Did not return 200 status code");
 
-        String response_data = response.getBody().asString();
+        Map<String,String> response_data = new HashMap<>();
+        String response_body = response.getBody().asString();
+        String response_code = String.valueOf(response.getStatusCode());
+        response_data.put("code",response_code);
+        response_data.put("body", response_body);
 
         return response_data;
     }

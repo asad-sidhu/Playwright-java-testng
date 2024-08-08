@@ -41,9 +41,10 @@ public class PlaywrightFactory {
         }else {
             browserContext = browser.newContext();
         }
-        browserContext.setDefaultTimeout(60000);
+        browserContext.setDefaultTimeout(90000);
         page = browserContext.newPage();
         page.navigate(url);
+//        browserContext.setDefaultTimeout(90000);
         return page;
     }
 

@@ -6,13 +6,12 @@ import com.qa.orangeHRM.config.Constants;
 import com.qa.orangeHRM.miscFunctions.Sorting;
 import com.qa.orangeHRM.pages.BasePage;
 import com.qa.orangeHRM.pages.LoginPage;
-import com.qa.orangeHRM.pages.PIMPage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class ClaimTest extends BaseTest {
+public class AdminTest extends BaseTest {
     LoginPage loginPage;
     SoftAssert softAssert = new SoftAssert();
     API_Requests api_requests = new API_Requests(page);
@@ -31,10 +30,10 @@ public class ClaimTest extends BaseTest {
     @BeforeMethod
     public void Navigate() {
         basePage = new BasePage(page);
-        basePage.navBarNavigations("Claim");
+        basePage.navBarNavigations("Admin");
     }
 
-    @Test(priority = 18, description = "Verify that sorting is working properly on the Employee table.")
+    @Test(priority = 18, description = "Verify that sorting is working properly on the Admins table.")
     public void VerifySorting1() throws InterruptedException {
         Sorting sorting = new Sorting(page);
         sorting.verifySorting(0);

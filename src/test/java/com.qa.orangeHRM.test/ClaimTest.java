@@ -12,11 +12,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class PIMTest extends BaseTest {
+public class ClaimTest extends BaseTest {
     LoginPage loginPage;
     SoftAssert softAssert = new SoftAssert();
     API_Requests api_requests = new API_Requests(page);
-    PIMPage pimPage;
 
 
     @BeforeClass
@@ -32,61 +31,13 @@ public class PIMTest extends BaseTest {
     @BeforeMethod
     public void Navigate() {
         basePage = new BasePage(page);
-        basePage.navBarNavigations("PIM");
+        basePage.navBarNavigations("Claim");
     }
 
-    @Test(priority = 12, description = "Verify that an employee can be added successfully.")
-    public void AddEmployee() throws InterruptedException {
-        pimPage = new PIMPage(page);
-        pimPage.addEmployee();
-    }
-
-    @Test(priority = 13, description = "Verify that an employee can be added successfully.")
-    public void EditEmployee() throws InterruptedException {
-        pimPage = new PIMPage(page);
-        pimPage.editEmployeePersonalDetails();
-    }
-
-    @Test(priority = 14, description = "Verify that an user is able to search an employee successfully.")
-    public void SearchEmployee() throws InterruptedException {
-        pimPage = new PIMPage(page);
-        pimPage.searchEmployee();
-    }
-
-    @Test(priority = 15, description = "Verify that contact details of an employee can be updated.")
-    public void UpdateContactDetails() throws InterruptedException {
-        pimPage = new PIMPage(page);
-        pimPage.editContactDetails();
-    }
-
-    @Test(priority = 16, description = "Verify that Emergency contact of an employee can be added.")
-    public void AddEmergencyContacts(){
-        pimPage = new PIMPage(page);
-        pimPage.addEmergencyContacts();
-    }
-
-    @Test(priority = 17, description = "Verify that Emergency contact of an employee can be updated.")
-    public void UpdateEmergencyContacts(){
-        pimPage = new PIMPage(page);
-        pimPage.editEmergencyContacts();
-    }
-
-    @Test(priority = 18, description = "Verify that Emergency contact of an employee can be deleted.")
-    public void DeleteEmergencyContacts(){
-        pimPage = new PIMPage(page);
-        pimPage.deleteEmergencyContacts();
-    }
-
-    @Test(priority = 18, description = "Verify that an employee can be deleted successfully.")
-    public void DeleteEmployee(){
-        pimPage = new PIMPage(page);
-        pimPage.deleteEmployee();
-    }
-
-    @Test(priority = 18, description = "Verify that sorting is working properly on the Employee table.")
+    @Test(priority = 18, description = "Verify that sorting is working properly on the Claims table.")
     public void VerifySorting1() throws InterruptedException {
         Sorting sorting = new Sorting(page);
-        sorting.verifySorting();
+        sorting.verifySorting(0);
     }
 
 

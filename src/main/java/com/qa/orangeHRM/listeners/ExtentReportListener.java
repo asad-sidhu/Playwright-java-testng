@@ -1,5 +1,6 @@
 package com.qa.orangeHRM.listeners;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -94,9 +95,9 @@ public class ExtentReportListener implements ITestListener, IClassListener {
     public synchronized void onTestSuccess(ITestResult result) {
         test.get().pass(result.getMethod().getMethodName() + " Test passed");
         Page page = ((BaseTest) result.getInstance()).getPage();
-        String screenshotPath = ScreenshotUtil.takeScreenshot(page);
-        // Uncomment if you want to attach screenshot to pass test case
-        // test.get().pass("Screenshot", MediaEntityBuilder.createScreenCaptureFromBase64String(screenshotPath).build());
+//        String screenshotPath = ScreenshotUtil.takeScreenshot(page);
+//        String relativeScreenshotPath = Paths.get(Constants.SCREENSHOTS_PATH, new File(screenshotPath).getName()).toString();
+        // test.get().pass("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(relativeScreenshotPath).build());
         test.get().getModel().setEndTime(getTime(result.getEndMillis()));
     }
 
@@ -105,7 +106,8 @@ public class ExtentReportListener implements ITestListener, IClassListener {
         System.out.println(result.getMethod().getMethodName() + " failed!");
         Page page = ((BaseTest) result.getInstance()).getPage();
         String screenshotPath = ScreenshotUtil.takeScreenshot(page);
-        test.get().fail(result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromBase64String(screenshotPath).build());
+        String relativeScreenshotPath = Paths.get(Constants.SCREENSHOTS_PATH, new File(screenshotPath).getName()).toString();
+        test.get().fail(result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromPath(relativeScreenshotPath).build());
         test.get().fail(result.getMethod().getMethodName() + " Test failed");
         test.get().getModel().setEndTime(getTime(result.getEndMillis()));
     }
@@ -115,7 +117,8 @@ public class ExtentReportListener implements ITestListener, IClassListener {
         System.out.println(result.getMethod().getMethodName() + " skipped!");
         Page page = ((BaseTest) result.getInstance()).getPage();
         String screenshotPath = ScreenshotUtil.takeScreenshot(page);
-        test.get().skip(result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromBase64String(screenshotPath).build());
+        String relativeScreenshotPath = Paths.get(Constants.SCREENSHOTS_PATH, new File(screenshotPath).getName()).toString();
+        test.get().skip(result.getThrowable(), MediaEntityBuilder.createScreenCaptureFromPath(relativeScreenshotPath).build());
         test.get().fail(result.getMethod().getMethodName() + " Test skipped");
         test.get().getModel().setEndTime(getTime(result.getEndMillis()));
     }

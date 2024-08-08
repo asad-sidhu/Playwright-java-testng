@@ -15,12 +15,16 @@ public class BaseTest {
     protected Properties props;
     protected BasePage basePage;
 
+    @Parameters("browser")
     @BeforeClass
-    public void setUp() {
+    public void setUp(String browserName) {
         boolean useStoredLogin = !this.getClass().getSimpleName().equals("LoginTest");
         playwrightFactory = new PlaywrightFactory();
         propsUtil = new PropertiesUtil();
         props = propsUtil.initProperties();
+        if(browserName != null){
+            props.setProperty("browser",browserName);
+        }
         page = playwrightFactory.initBrowser(props,useStoredLogin);
     }
 
