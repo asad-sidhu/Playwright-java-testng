@@ -33,16 +33,18 @@ pipeline {
     post {
         always {
             script {
-                def reportDir = 'Playwright-java-testng/reports'
-                def reportExists = sh(script: "ls ${reportDir}/TestExecutionReport*.html", returnStatus: true) == 0
-                
+                def reportDir = 'Playwright-java-testng\\reports'
+
+                // Check if any HTML report exists in the directory
+                def reportExists = bat(script: "dir /b ${reportDir}\\*.html", returnStatus: true) == 0
+
                 if (reportExists) {
                     publishHTML([
                         allowMissing: false,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
                         reportDir: reportDir,
-                        reportFiles: '*.html', // Wildcard to include all HTML files
+                        reportFiles: '*.html', // Include all HTML files
                         reportName: 'HTML Extent Reports',
                         reportTitles: ''
                     ])
