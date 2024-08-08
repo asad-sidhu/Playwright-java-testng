@@ -50,7 +50,7 @@ public class DashboardTest extends BaseTest {
     @Test(priority = 4, description = "Verify that correct title shows on the Dashboard page.")
     public void VerifyTitle() {
         basePage = new BasePage(page);
-        Assert.assertNotEquals(basePage.getPageTitle(), Constants.DASHBOARD_TITLE, "Wrong Title showing on the page.");
+        Assert.assertEquals(basePage.getPageTitle(), Constants.DASHBOARD_TITLE, "Wrong Title showing on the page.");
     }
 
     @Test(priority = 5, description = "Verify that all the widgets are visible on the Dashboard page.")
