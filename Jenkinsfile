@@ -33,20 +33,21 @@ pipeline {
     post {
         always {
             script {
-                // Assuming Extent Report is generated in 'reports' directory
-                def reportFiles = fileGlob(dir: 'Playwright-java-testng/reports', files: 'TestExecutionReport.html')
-                if (reportFiles.any()) {
+                def reportDir = 'Playwright-java-testng/reports'
+                def reportExists = sh(script: "ls ${reportDir}/TestExecutionReport*.html", returnStatus: true) == 0
+                
+                if (reportExists) {
                     publishHTML([
                         allowMissing: false,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
-                        reportDir: 'Playwright-java-testng/reports',
-                        reportFiles: reportFiles,
-                        reportName: 'HTML Extent Report',
+                        reportDir: reportDir,
+                        reportFiles: '*.html', // Wildcard to include all HTML files
+                        reportName: 'HTML Extent Reports',
                         reportTitles: ''
                     ])
                 } else {
-                    echo "Extent Report not found. Might be due to test failures."
+                    echo "No Extent Reports found. Might be due to test failures."
                 }
             }
         }
