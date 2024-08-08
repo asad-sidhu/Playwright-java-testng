@@ -14,7 +14,7 @@ pipeline {
             }
         }
 
-        stage("Deploy to QA") {
+        stage('Deploy to QA') {
             steps {
                 echo "Deploying to QA"
             }
@@ -28,25 +28,25 @@ pipeline {
                 }
             }
         }
+    }
 
-        stage('Publish Extent Report') { // Renamed and separate stage for clarity
-            steps {
-                script {
-                    // Assuming Extent Report is generated in 'reports' directory
-                    def reportFiles = fileGlob(dir: 'reports', files: 'TestExecutionReport.html')
-                    if (reportFiles.any()) {
-                        publishHTML([
-                            allowMissing: false,
-                            alwaysLinkToLastBuild: false,
-                            keepAll: true,
-                            reportDir: 'reports',
-                            reportFiles: reportFiles,
-                            reportName: 'HTML Extent Report',
-                            reportTitles: ''
-                        ])
-                    } else {
-                        echo "Extent Report not found. Might be due to test failures."
-                    }
+    post {
+        always {
+            script {
+                // Assuming Extent Report is generated in 'reports' directory
+                def reportFiles = fileGlob(dir: 'Playwright-java-testng/reports', files: 'TestExecutionReport.html')
+                if (reportFiles.any()) {
+                    publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'Playwright-java-testng/reports',
+                        reportFiles: reportFiles,
+                        reportName: 'HTML Extent Report',
+                        reportTitles: ''
+                    ])
+                } else {
+                    echo "Extent Report not found. Might be due to test failures."
                 }
             }
         }
