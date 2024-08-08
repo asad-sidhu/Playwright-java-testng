@@ -6,16 +6,16 @@
         <listener class-name="com.qa.orangeHRM.listeners.ExtentReportListener" />
     </listeners>
 
-<!--     <test name="OrangeHRM Home Page Test chrome">
-<!--         <parameter name="browser" value="chrome" /> -->
-<!--         <classes> -->
-<!--             <class name="com.qa.orangeHRM.test.LoginTest" />
-<!--             <class name="com.qa.orangeHRM.test.DashboardTest" /> -->
-<!--            <class name="com.qa.orangeHRM.test.PIMTest" />--> -->
-<!--             <class name="com.qa.orangeHRM.test.AdminTest" />
-<!--             <class name="com.qa.orangeHRM.test.ClaimTest" /> --> -->
-<!--         </classes> -->
-<!--     </test> --> -->
+    <test name="OrangeHRM Home Page Test chrome">
+        <parameter name="browser" value="chrome" />
+        <classes>
+            <class name="com.qa.orangeHRM.test.LoginTest" />
+            <class name="com.qa.orangeHRM.test.DashboardTest" />
+<!--            <class name="com.qa.orangeHRM.test.PIMTest" />-->
+<!--            <class name="com.qa.orangeHRM.test.AdminTest" />-->
+<!--            <class name="com.qa.orangeHRM.test.ClaimTest" />-->
+        </classes>
+    </test>
 
 <!--    <test name="OrangeHRM Home Page Test firefox">-->
 <!--        <parameter name="browser" value="firefox" />-->
