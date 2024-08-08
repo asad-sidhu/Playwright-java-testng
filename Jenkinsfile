@@ -10,8 +10,8 @@ pipeline {
             steps {
                 git url: 'https://github.com/asad-sidhu/randomtestjenkins.git', branch: 'main'
                 bat 'mvn clean package'
+                archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
             }
-            archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
         }
 
         stage("Deploy to QA") {
