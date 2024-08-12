@@ -30,7 +30,7 @@ public class LoginTest extends BaseTest {
         playwrightFactory.storeLoginInfo(page.context());
     }
 
-    @DataProvider(parallel = true)
+    @DataProvider()
     public Object[][] LoginNegativeData() {
         return new Object[][]{
                 {"a", "z"},
