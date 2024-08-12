@@ -95,9 +95,9 @@ public class ExtentReportListener implements ITestListener, IClassListener {
     public synchronized void onTestSuccess(ITestResult result) {
         test.get().pass(result.getMethod().getMethodName() + " Test passed");
         Page page = ((BaseTest) result.getInstance()).getPage();
-//        String screenshotPath = ScreenshotUtil.takeScreenshot(page);
-//        String relativeScreenshotPath = Paths.get(Constants.SCREENSHOTS_PATH, new File(screenshotPath).getName()).toString();
-        // test.get().pass("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(relativeScreenshotPath).build());
+        String screenshotPath = ScreenshotUtil.takeScreenshot(page);
+        String relativeScreenshotPath = Paths.get(Constants.SCREENSHOTS_PATH, new File(screenshotPath).getName()).toString();
+        test.get().pass("Screenshot", MediaEntityBuilder.createScreenCaptureFromPath(relativeScreenshotPath).build());
         test.get().getModel().setEndTime(getTime(result.getEndMillis()));
     }
 

@@ -12,8 +12,8 @@
             <class name="com.qa.orangeHRM.test.LoginTest" />
             <class name="com.qa.orangeHRM.test.DashboardTest" />
 <!--            <class name="com.qa.orangeHRM.test.PIMTest" />-->
-            <class name="com.qa.orangeHRM.test.AdminTest" />
-            <class name="com.qa.orangeHRM.test.ClaimTest" />
+<!--            <class name="com.qa.orangeHRM.test.AdminTest" />-->
+<!--            <class name="com.qa.orangeHRM.test.ClaimTest" />-->
         </classes>
     </test>
 

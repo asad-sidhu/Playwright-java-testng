@@ -30,7 +30,7 @@ public class LoginTest extends BaseTest {
         playwrightFactory.storeLoginInfo(page.context());
     }
 
-    @DataProvider
+    @DataProvider(parallel = true)
     public Object[][] LoginNegativeData() {
         return new Object[][]{
                 {"a", "z"},
@@ -42,6 +42,7 @@ public class LoginTest extends BaseTest {
     @Test(dataProvider = "LoginNegativeData", priority = 1, description = "Verify that user cannot log in with invalid credentials.")
     public void LoginNegativeCases(String uname, String pwd) throws IOException {
         try {
+
             loginPage.login(uname, pwd);
             Assert.assertTrue(loginPage.isInavlidCredsAlertPresent());
         } catch (AssertionError e) {
