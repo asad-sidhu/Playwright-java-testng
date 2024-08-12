@@ -35,10 +35,12 @@ pipeline
                 
         stage('Regression Automation Test') {
             steps {
+                dir('Playwright-java-testng'){
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     git url: 'https://github.com/asad-sidhu/Playwright-java-testng.git', branch: 'main'
                     bat 'mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testNG.xml'
          
+                }
                 }
             }
         }
