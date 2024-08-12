@@ -1,63 +1,57 @@
-pipeline 
-{
+pipeline {
     agent any
-    
-    tools{
-    	maven 'maven'
+
+    tools {
+        maven 'maven'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                git url: 'https://github.com/asad-sidhu/randomtestjenkins.git', branch: 'main'
+                bat 'mvn clean package'
+                archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
+            }
         }
 
-    stages 
-    {
-        stage('Build') 
-        {
-            steps
-            {
-                 git 'https://github.com/jglick/simple-maven-project-with-tests.git'
-                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
-            }
-            post 
-            {
-                success
-                {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts 'target/*.jar'
-                }
+        stage('Deploy to QA') {
+            steps {
+                echo "Deploying to QA"
             }
         }
-        
-        
-        
-        stage("Deploy to QA"){
-            steps{
-                echo("deploy to qa")
-            }
-        }
-                
+
         stage('Regression Automation Test') {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    git 'https://github.com/asad-sidhu/Playwright-java-testng'
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testNG.xml"
-                    
+                dir('Playwright-java-testng') { // Navigate into the correct directory
+                    git url: 'https://github.com/asad-sidhu/Playwright-java-testng.git', branch: 'main'
+                    bat 'mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testNG.xml'
                 }
             }
         }
-        
-        
-        stage('Publish Extent Report'){
-            steps{
-                     publishHTML([allowMissing: false,
-                                  alwaysLinkToLastBuild: false, 
-                                  keepAll: true, 
-                                  reportDir: 'reports', 
-                                  reportFiles: 'TestExecutionReport.html', 
-                                  reportName: 'HTML Extent Report', 
-                                  reportTitles: ''])
+    }
+
+    post {
+        always {
+            script {
+                def reportDir = 'Playwright-java-testng\\reports'
+
+                // Check if any HTML report exists in the directory
+                def reportExists = bat(script: "dir /b ${reportDir}\\*.html", returnStatus: true) == 0
+
+                if (reportExists) {
+                    publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: reportDir,
+                        reportFiles: '*.html', // Include all HTML files
+                        reportName: 'HTML Extent Reports',
+                        reportTitles: ''
+                    ])
+                } else {
+                    echo "No Extent Reports found. Might be due to test failures."
+                }
             }
         }
-        
-        
-        
-        
     }
 }
