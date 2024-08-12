@@ -21,6 +21,7 @@ public class LoginPage {
     }
 
     public BasePage login(String userName, String password){
+        System.out.println("THE USERNAME IS "+userName + "    "+ password);
         page.fill(userNameField,userName);
         page.fill(passwordField,password);
         page.click(loginBtn);

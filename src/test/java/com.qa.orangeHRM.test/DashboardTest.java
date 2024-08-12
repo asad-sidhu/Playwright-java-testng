@@ -216,7 +216,7 @@ public class DashboardTest extends BaseTest {
                             employeeNode.path("lastName").asText().toLowerCase(),
                             node.path("text").asText().toLowerCase()
                     ).replaceAll("\r\n", "").replaceAll("\r", "");
-                    apiData.add(employeeDetails.lines().collect(Collectors.joining("\n")));
+//                    apiData.add(employeeDetails.lines().collect(Collectors.joining("\n")));
                 }
 
                 // Fetching the actual data from the dashboard

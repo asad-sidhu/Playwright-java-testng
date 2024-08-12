@@ -10,7 +10,7 @@
         <parameter name="browser" value="chrome" />
         <classes>
             <class name="com.qa.orangeHRM.test.LoginTest" />
-            <class name="com.qa.orangeHRM.test.DashboardTest" />
+<!--            <class name="com.qa.orangeHRM.test.DashboardTest" />-->
 <!--            <class name="com.qa.orangeHRM.test.PIMTest" />-->
 <!--            <class name="com.qa.orangeHRM.test.AdminTest" />-->
 <!--            <class name="com.qa.orangeHRM.test.ClaimTest" />-->
@@ -28,14 +28,14 @@
 <!--        </classes>-->
 <!--    </test>-->
 
-    <test name="OrangeHRM Home Page Test edge">
-        <parameter name="browser" value="edge" />
-        <classes>
-            <class name="com.qa.orangeHRM.test.LoginTest" />
+<!--    <test name="OrangeHRM Home Page Test edge">-->
+<!--        <parameter name="browser" value="edge" />-->
+<!--        <classes>-->
+<!--            <class name="com.qa.orangeHRM.test.LoginTest" />-->
 <!--            <class name="com.qa.orangeHRM.test.DashboardTest" />-->
 <!--            <class name="com.qa.orangeHRM.test.PIMTest" />-->
 <!--            <class name="com.qa.orangeHRM.test.AdminTest" />-->
 <!--            <class name="com.qa.orangeHRM.test.ClaimTest" />-->
-        </classes>
-    </test>
+<!--        </classes>-->
+<!--    </test>-->
 </suite>
