@@ -50,7 +50,7 @@ pipeline
                                   alwaysLinkToLastBuild: false, 
                                   keepAll: true, 
                                   reportDir: 'Playwright-java-testng\\reports', 
-                                  reportFiles: 'TestExecutionReport.html', 
+                                  reportFiles: '*.html', 
                                   reportName: 'HTML Extent Report', 
                                   reportTitles: ''])
             }
